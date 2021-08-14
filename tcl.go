@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	"github.com/gempir/go-twitch-irc/v2"
@@ -77,8 +78,19 @@ func main() {
 		} else {
 			un = fmt.Sprintf("%s(%s)", m.User.DisplayName, m.User.Name)
 		}
-		fl.Printf("%s %s", un, m.Message)
-		log.Printf("[%s] %s %s", m.Channel, un, m.Message)
+
+		mod := ""
+		if m.User.Badges["moderator"] > 0 {
+			mod = "[MOD]"
+		}
+
+		systemLog := []string{fmt.Sprintf("[%s]", m.Channel), mod, un, m.Message}
+		systemLog = utils.DeleteEmpty(systemLog)
+		fileLog := []string{mod, un, m.Message}
+		fileLog = utils.DeleteEmpty(fileLog)
+
+		log.Println(strings.Join(systemLog[:], " "))
+		fl.Println(strings.Join(fileLog[:], " "))
 	})
 	client.OnClearChatMessage(func(m twitch.ClearChatMessage) {
 		file, err := utils.GetFile(m.Channel)
