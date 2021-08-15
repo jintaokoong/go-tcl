@@ -10,15 +10,15 @@ import (
 	"github.com/jintaokoong/go-tcl/utils"
 )
 
-func HandleConnect(systemLogger *log.Logger) func() {
+func HandleConnect(sl *log.Logger) func() {
 	return func() {
 		file, err := utils.GetFile("system")
 		if err != nil {
 			log.Fatal(err)
 		}
 		defer file.Close()
-		systemLogger.SetOutput(file)
-		systemLogger.Println("connected")
+		sl.SetOutput(file)
+		sl.Println("connected")
 		log.Println("connected")
 	}
 }
@@ -58,8 +58,9 @@ func HandlePrivateMessage(sl *log.Logger, fl *log.Logger, config structs.Config)
 			if m.User.Badges[role] == 0 {
 				continue
 			}
-			sysLog = append(sysLog, fmt.Sprintf("[%s]", role))
-			fileLog = append(fileLog, fmt.Sprintf("[%s]", role))
+			pr := strings.ToUpper(utils.GetFirstN(role, 3))
+			sysLog = append(sysLog, fmt.Sprintf("[%s]", pr))
+			fileLog = append(fileLog, fmt.Sprintf("[%s]", pr))
 		}
 
 		sysLog = append(sysLog, un, m.Message)
