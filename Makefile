@@ -1,9 +1,11 @@
+all: build run
+
 build:
 	go build -o bin/tcl tcl.go
 build-arm:
-	GOOS=linux GOARCH=arm go build bin/tcl-arm tcl.go
+	GOOS=linux GOARCH=arm go build -o bin/tcl tcl.go
 run:
-	go run tcl.go
+	./bin/tcl
 clean:
 	rm -r bin/
 	rm *.log
