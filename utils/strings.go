@@ -7,13 +7,3 @@ func GetFirstN(s string, n int) string {
 		return s
 	}
 }
-
-func DeleteEmpty(s []string) []string {
-	var r []string
-	for _, str := range s {
-		if str != "" {
-			r = append(r, str)
-		}
-	}
-	return r
-}

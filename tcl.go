@@ -45,7 +45,7 @@ func main() {
 	client := twitch.NewAnonymousClient()
 	client.OnConnect(handlers.HandleConnect(sl))
 	client.OnReconnectMessage(handlers.HandleReconnectMessage(sl))
-	client.OnPrivateMessage(handlers.HandlePrivateMessage(sl, fl, config))
+	client.OnPrivateMessage(handlers.HandlePrivateMessageV2(config))
 	client.OnClearChatMessage(handlers.HandleClearChatMessage(sl, fl))
 	client.OnNoticeMessage(handlers.HandleNoticeMessage(sl, fl))
 	client.Join(config.Channels...)
