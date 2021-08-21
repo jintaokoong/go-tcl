@@ -89,7 +89,7 @@ func HandlePrivateMessageV2(config structs.Config) func(m twitch.PrivateMessage)
 		defer mongoClient.Disconnect(ctx)
 
 		database := mongoClient.Database(config.Database.Name)
-		collectionName := fmt.Sprintf("%s%s", config.Database.Collection, time.Now().Local().Format("200601"))
+		collectionName := config.Database.Collection
 		entryCollection := database.Collection(collectionName)
 
 		un := ""
